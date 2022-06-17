@@ -7,11 +7,12 @@ def init_argparse():
     parser = argparse.ArgumentParser()
 
     # Adding optional argument
-    parser.add_argument("-i", "--hive-host-address", help="hive address", required=True)
+    parser.add_argument("-i", "--hiveHost", help="hive host ip address", required=True)
     parser.add_argument("-p", "--port", help="hive port", required=True)
     parser.add_argument("-u", "--username", help="hive username", required=True)
+    parser.add_argument("-w", "--passwd", help="hive password", required=False)
     parser.add_argument("-d", "--database", help="database", required=True)
-    parser.add_argument("-f", "--hdfs-address", help="hadoop hdfs address", required=True)
+    parser.add_argument("-f", "--hdfsAddress", help="hadoop hdfs address", required=True)
 
     # Read arguments from command line
     args = parser.parse_args()
@@ -19,8 +20,9 @@ def init_argparse():
     return args
 
 
-def connect_to_hive():
-    conn = hive.Connection(host="39.103.230.188", port=30115, username="dehoop", database="rd_dev")
+def connect_to_hive(host, port, username, database, password):
+    conn = hive.Connection(host=host, port=port, username=username, database=database, password=password)
+    return conn
 
 
 def get_hive_table(conn):
@@ -34,7 +36,12 @@ def get_hive_table(conn):
 
     return table_name
 
+def table_name_to_txt():
+
+
 
 if __name__ == '__main__':
-    init_argparse()
-    # connect_to_hive()
+    args = init_argparse()
+    conn = connect_to_hive(args.hiveHost, args.port, args.username, args.database, args.passwd)
+
+    print(get_hive_table(conn))
