@@ -50,7 +50,7 @@ def get_hive_table(conn):
 def table_name_to_txt(table_name_list):
     now = datetime.now()
 
-    dt_string = now.strftime("%Y-%d-%m %H:%M:%S")
+    dt_string = now.strftime("%Y-%d-%m-%H:%M:%S")
 
     with open(r'hive_table_name_backup_' + dt_string + '.txt', 'w') as fp:
         for item in table_name_list:
